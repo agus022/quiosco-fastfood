@@ -21,6 +21,7 @@ export default async function OrderPage({ params }: { params: Promise<{ category
   console.log(products)
   return (
     <>
+    <h1 className="text-3xl font-bold text-slate-900 mb-5">Elige lo que vas a comer hoy:</h1>
       <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-4 items-start">
         {products.map((product) => (
           <ProductCard key={product.id} 
