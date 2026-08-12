@@ -1,6 +1,7 @@
 import { Product } from "@/app/generated/prisma/client"
 import { formatCurrency } from "@/lib"
 import Image from "next/image";
+import AddProducts from "./AddProducts";
 
 type ProductCardProps = {
     product: Product
@@ -19,7 +20,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Optimiza la descarga según la pantalla
                 priority={false} // Cambia a true solo para los primeros 2-3 productos visibles de la página
                 className="object-cover transform group-hover:scale-110 transition-transform duration-500 ease-out"
-                quality={70} // Ajusta la calidad de la imagen para optimizar el rendimiento
+                //quality={70} // Ajusta la calidad de la imagen para optimizar el rendimiento
             />
             
             {/* Badge de categoría */}
@@ -44,12 +45,9 @@ export default function ProductCard({ product }: ProductCardProps) {
                 </span>
             </div>
 
-            {/* Botón Flotante */}
-            <button type="button" className="h-11 w-11 bg-amber-500 hover:bg-amber-600 active:scale-95 text-white rounded-2xl flex items-center justify-center shadow-lg transition-all duration-200 cursor-pointer">
-                <svg xmlns="http://w3.org" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 transition-transform duration-200 group-hover/btn:scale-105">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                </svg>
-            </button>
+                <AddProducts
+                    product={product}
+                />
         </div>
 
     </div>
