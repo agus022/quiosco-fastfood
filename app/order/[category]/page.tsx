@@ -18,7 +18,7 @@ async function getProducts(category: string) {
 export default async function OrderPage({ params }: { params: Promise<{ category: string }> }) {
  const { category } = await params
  const products = await getProducts(category)
-  console.log(products)
+  //console.log(products)
   return (
     <>
     <h1 className="text-3xl font-bold text-slate-900 mb-5">Elige lo que vas a comer hoy:</h1>
