@@ -13,7 +13,7 @@ export default async function OrderSidebar() {
       {/* Encabezado del Menú / Branding */}
       <div className="pt-8 px-6 pb-4">
         <h2 className="text-2xl font-black text-slate-800 tracking-tight">
-          KeKas<span className="text-amber-500"> D.F</span>
+          La<span className="text-amber-500"> Capsula </span>
         </h2>
         <p className="text-xs font-medium text-slate-400 mt-1">
           Selecciona una categoría para ver los productos disponibles.
