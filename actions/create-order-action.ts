@@ -15,7 +15,7 @@ export async function createOrder(data: unknown) {
     }
 
     try {
-        console.log(result.data)
+        //console.log(result.data)
         await prisma.order.create({
             data:{
                 name: result.data.name,
