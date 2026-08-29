@@ -3,12 +3,52 @@ import { useStore } from "@/src/store";
 import ProductDetails from "./ProductDetails";
 import { useMemo } from "react";
 import { formatCurrency } from "@/lib";
-import { ShoppingBagIcon } from "@heroicons/react/24/outline"; // Icono opcional para el estado vacío
+import { ShoppingBagIcon } from "@heroicons/react/24/outline"; 
+import { createOrder } from "@/actions/create-order-action";
+import { OrderSchema } from "@/src/schema";
+import { toast } from "react-toastify";
 
 
 export default function OrderSummary() {
+
   const order = useStore((state) => state.order);
   const total = useMemo(()=> order.reduce((total,item) => total + (item.quantity* item.price), 0), [order]);
+  const clearOrder = useStore((state)=>state.clearOrder)
+
+  const handleCreateOrder=  async (formData: FormData) => {
+
+    const data ={
+      name: formData.get('name') as string,
+      total,
+      order,
+
+    }
+
+    const result = OrderSchema.safeParse(data);
+    //console.log(result)
+    if(!result.success){
+      result.error.issues.forEach((issue) =>{
+        toast.error(issue.message,{
+          autoClose: 3000,
+        })
+      })
+
+      return
+    }
+    
+
+    const response = await createOrder(data);
+    if(response?.errors){
+        response.errors.forEach((issue)=>{
+          toast.error(issue.message,{
+            autoClose: 3000,
+          })
+        })
+    }  
+
+    toast.success("Pedido Completado :)")
+    clearOrder()
+  }
   
   return (
      <aside className="md:h-screen md:w-80 lg:w-100 bg-gray-50 border-l border-gray-100 flex flex-col justify-between shadow-2xl relative">
@@ -62,12 +102,26 @@ export default function OrderSummary() {
           </div>
 
           {/* Botón de Confirmación / Pago */}
-          <button
-            type="button"
-            className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 transform active:scale-[0.98] shadow-lg shadow-amber-500/20 text-center text-lg tracking-wide"
+          
+          <form
+            action={handleCreateOrder}
           >
-            Confirmar Pedido
-          </button>
+            <input
+              type= "text"
+              placeholder="Nombre"
+              className="w-full border border-gray-300 rounded-xl py-3 px-4 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent mb-4"
+              name="name"
+
+            />
+            <input
+              type="submit"
+              className="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 transform active:scale-[0.98] shadow-lg shadow-amber-500/20 text-center text-lg tracking-wide cursor-pointer"
+              value="Confirmar pedido"
+            />
+          </form>
+          
+          
+
           
         </div>
       )}
