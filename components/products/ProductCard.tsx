@@ -1,5 +1,5 @@
 import { Product } from "@/app/generated/prisma/client"
-import { formatCurrency } from "@/lib"
+import { formatCurrency, getImage } from "@/lib"
 import Image from "next/image";
 import AddProducts from "./AddProducts";
 
@@ -7,14 +7,17 @@ type ProductCardProps = {
     product: Product
 }
 
+
+
 export default function ProductCard({ product }: ProductCardProps) {
+    const imagePath = getImage(product.image)
     return (
         <div className="group relative bg-white border border-slate-100 rounded-3xl p-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between h-full">
         
         {/* Contenedor de la Imagen - Mantiene una relación de aspecto cuadrada */}
         <div className="relative w-full aspect-square rounded-2xl overflow-hidden mb-4">
             <Image
-                src={`/assets/products/${product.image}.jpg`}
+                src={imagePath}
                 alt={`Imagen platillo ${product.name}`}
                 fill // Hace que la imagen llene el contenedor dinámicamente
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" // Optimiza la descarga según la pantalla

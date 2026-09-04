@@ -61,6 +61,11 @@ export default function ImageUpload() {
                                 </div>
                             </>
                         )}
+                        <input
+                            type="hidden"
+                            name="image"
+                            value={imageUrl}
+                        />
                     </div>
                 </div>
             )}
