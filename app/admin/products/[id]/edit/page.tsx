@@ -1,3 +1,5 @@
+import EditProductForm from "@/components/admin/EditProductForm";
+import ProductForm from "@/components/admin/ProductForm";
 import Heading from "@/components/ui/Heading";
 import prisma from "@/lib/prisma";
 import { notFound } from "next/navigation";
@@ -11,6 +13,7 @@ async function getProductById(id: number) {
     if(!product){
         notFound()
     }
+    return product
 }
 
 export default async function EditProductsPage({params,}: {params: Promise<{ id: string }>;}) {
@@ -18,13 +21,18 @@ export default async function EditProductsPage({params,}: {params: Promise<{ id:
 
   const product = await getProductById(Number(id));
 
-  console.log(product);
+  //onsole.log(product);
 
   return (
     <>
-      <Heading>
-        Editar producto
-      </Heading>
+<Heading>
+  Editar producto: <span className="text-orange-600 font-normal text-2xl ml-2">{product.name}</span>
+</Heading>
+      <EditProductForm>
+        <ProductForm
+        product={product}
+        />
+      </EditProductForm>
     </>
   );
 }

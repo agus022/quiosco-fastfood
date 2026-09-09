@@ -1,12 +1,16 @@
 import prisma from "@/lib/prisma";
 import ImageUpload from "./ImageUpload";
+import { Product } from "@/app/generated/prisma/client";
 
 async function getCategories() {
   return await prisma.category.findMany()
 }
 
+type ProductTypeProps={
+    product?: Product
+}
 
-export default async function ProductForm() {
+export default async function ProductForm({product}:ProductTypeProps) {
     const categories = await getCategories();
     // Estilo común para todos los inputs y select para mantener consistencia
     const inputStyles = "block w-full rounded-xl border border-gray-200 bg-gray-50/50 p-3 text-sm text-gray-900 placeholder-gray-400 transition-all focus:border-orange-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-orange-500/20"
@@ -25,6 +29,7 @@ export default async function ProductForm() {
                     name="name"
                     className={inputStyles}
                     placeholder="Ej. Hamburguesa Doble con Queso"
+                    defaultValue={product?.name}
                 />
             </div>
 
@@ -44,6 +49,7 @@ export default async function ProductForm() {
                         step="0.01"
                         className={`${inputStyles} pl-7`}
                         placeholder="0.00"
+                        defaultValue={product?.price}
                     />
                 </div>
             </div>
@@ -56,6 +62,7 @@ export default async function ProductForm() {
                         className={`${inputStyles} appearance-none pr-10`}
                         id="categoryId"
                         name="categoryId"
+                        defaultValue={product?.categoryId}
                     >
                         <option value="">-- Seleccione una categoría --</option>
                         {categories.map((category) => (
@@ -72,7 +79,7 @@ export default async function ProductForm() {
                     </div>
                 </div>
                 <ImageUpload 
-                  
+                  image= {product?.image}
 
                 />
             </div>
